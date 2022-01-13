@@ -1,9 +1,12 @@
 package adarsh.myfavouritedish.model.entities
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 // Define the Table name
 @Entity(tableName = "fav_dishes_table")
 class FavDish (
@@ -18,4 +21,4 @@ class FavDish (
     @ColumnInfo(name = "instructions") val directionToCook:String ,
     @ColumnInfo(name = "favorite_dish") val favoriteDish:Boolean = false ,
     @PrimaryKey(autoGenerate =  true) val id :Int = 0
-)
+):Parcelable

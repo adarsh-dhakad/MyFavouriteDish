@@ -68,6 +68,7 @@ class AddUpdateDishActivity : AppCompatActivity() ,View.OnClickListener {
 
         mBinding.ivAddDishImage.setOnClickListener(this@AddUpdateDishActivity)
         mBinding.etCategory.setOnClickListener(this)
+        mBinding.etType.setOnClickListener(this)
         mBinding.etCookingTime.setOnClickListener(this)
         mBinding.btnAddDish.setOnClickListener(this)
     }
@@ -412,11 +413,11 @@ class AddUpdateDishActivity : AppCompatActivity() ,View.OnClickListener {
              }
              Constants.DISH_CATEGORY->{
                  mCustomListDialog.dismiss()
-                 mBinding.etType.setText(item)
+                 mBinding.etCategory.setText(item)
              }
               else ->{
                  mCustomListDialog.dismiss()
-                 mBinding.etType.setText(item)
+                 mBinding.etCookingTime.setText(item)
              }
          }
     }
