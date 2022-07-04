@@ -31,4 +31,10 @@ class FavDishRepository(private val favDishDao: FavDishDao) {
     // Observed Flow will notify the observer when the data has changed.
     val allDishesList: Flow<List<FavDish>> = favDishDao.getAllDishesList()
 
+    @WorkerThread
+    suspend fun updateFavDishData(favDish: FavDish){
+        favDishDao.updateFaveDisDetails(favDish)
+    }
+
+    val favoriteDishes:Flow<List<FavDish>> = favDishDao.getFavoriteDishesList()
 }

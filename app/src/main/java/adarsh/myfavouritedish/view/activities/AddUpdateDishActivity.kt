@@ -54,6 +54,8 @@ class AddUpdateDishActivity : AppCompatActivity() ,View.OnClickListener {
     private var mImagePath:String = ""
     // A global variable for the custom list dialog.
     private lateinit var mCustomListDialog: Dialog
+    private var mFavDishDetails: FavDish? = null
+
 
     private val mFavDishViewModel : FavDishViewModel by viewModels{
        FavDishViewModelFactory((application as FavDishApplication).repository)
@@ -64,7 +66,32 @@ class AddUpdateDishActivity : AppCompatActivity() ,View.OnClickListener {
         mBinding = ActivityAddUpdateDishBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
+        if (intent.hasExtra(Constants.EXTRA_DISH_DETAILS)) {
+            mFavDishDetails = intent.getParcelableExtra(Constants.EXTRA_DISH_DETAILS)
+        }
+
         setupActionBar()
+
+        mFavDishDetails?.let {
+            if (it.id != 0) {
+                mImagePath = it.image
+
+                // Load the dish image in the ImageView.
+                Glide.with(this@AddUpdateDishActivity)
+                    .load(mImagePath)
+                    .centerCrop()
+                    .into(mBinding.ivDishImage)
+
+                mBinding.etTitle.setText(it.title)
+                mBinding.etType.setText(it.type)
+                mBinding.etCategory.setText(it.category)
+                mBinding.etIngredients.setText(it.ingredients)
+                mBinding.etCookingTime.setText(it.cookingTime)
+                mBinding.etDirectionToCook.setText(it.directionToCook)
+
+                mBinding.btnAddDish.text = resources.getString(R.string.lbl_update_dish)
+            }
+        }
 
         mBinding.ivAddDishImage.setOnClickListener(this@AddUpdateDishActivity)
         mBinding.etCategory.setOnClickListener(this)
@@ -75,7 +102,18 @@ class AddUpdateDishActivity : AppCompatActivity() ,View.OnClickListener {
 
     private fun setupActionBar(){
         setSupportActionBar(mBinding.toolbarAddDishActivity)
+
+        if (mFavDishDetails != null && mFavDishDetails!!.id != 0) {
+            supportActionBar?.let {
+                it.title = resources.getString(R.string.title_edit_dish)
+            }
+        } else {
+            supportActionBar?.let {
+                it.title = resources.getString(R.string.title_add_dish)
+            }
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         mBinding.toolbarAddDishActivity.setNavigationOnClickListener {
             onBackPressed()
         }

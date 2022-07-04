@@ -29,6 +29,12 @@ class FavDishViewModel(private val repository: FavDishRepository) : ViewModel() 
      * Repository is completely separated from the UI through the ViewModel.
      */
     val allDishesList: LiveData<List<FavDish>> = repository.allDishesList.asLiveData()
+
+    fun update(dish: FavDish) = viewModelScope.launch {
+        repository.updateFavDishData(dish)
+    }
+
+    val favoriteDishes : LiveData<List<FavDish>> = repository.favoriteDishes.asLiveData()
 }
 
 /**
